@@ -40,9 +40,6 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set output
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: Set up Go
         uses: actions/setup-go@v3
@@ -50,9 +47,9 @@ jobs:
           go-version: 1.18
 
       - name: Build
-        run: go build -o Hirsipuu-win-${{ steps.vars.outputs.tag }} Hirsipuu.go
+        run: go build -o Hirsipuu-win-${{github.ref_name}}.exe Hirsipuu.go
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.vars.outputs.tag }}
-          path: Hirsipuu-win-${{ steps.vars.outputs.tag }}
+          name: ${{github.ref_name}}
+          path: Hirsipuu-win-${{github.ref_name}}.exe
     
