@@ -7,10 +7,11 @@ on:
   push:
     tags:
       - "v*.*"
+      - "v*.*-beta"
 
 jobs:
 
-  build:
+  build-linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -30,9 +31,34 @@ jobs:
         go-version: 1.18
 
     - name: Build
-      run: go build -o Hirsipuu-${{ steps.vars.outputs.tag}} Hirsipuu.go
+      run: go build -o Hirsipuu-linux-${{ steps.vars.outputs.tag }} Hirsipuu.go
     - uses: actions/upload-artifact@v3
       with:
         name: ${{ steps.vars.outputs.tag }}
-        path: Hirsipuu-${{ steps.vars.outputs.tag }}
+        path: Hirsipuu-linux-${{ steps.vars.outputs.tag }}
+  build-win:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ steps.vars.outputs.tag }}
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
+
+      - name: Build
+        run: go build -o Hirsipuu-win-${{ steps.vars.outputs.tag }} Hirsipuu.go
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.vars.outputs.tag }}
+          path: Hirsipuu-win-${{ steps.vars.outputs.tag }}
     
