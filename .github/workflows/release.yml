@@ -30,7 +30,7 @@ jobs:
         go-version: 1.18
 
     - name: Build
-      run: go build Hirsipuu.go -o Hirsipuu-${{ steps.vars.outputs.tag }}
+      run: go build Hirsipuu.go -o "Hirsipuu-${{ steps.vars.outputs.tag" }}
     - uses: actions/upload-artifact@v3
       with:
         name: ${{ steps.vars.outputs.tag }}
