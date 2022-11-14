@@ -53,7 +53,7 @@ jobs:
           name: ${{github.ref_name}}
           path: Hirsipuu-win-${{github.ref_name}}.exe
     
-build-mac:
+  build-mac:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
