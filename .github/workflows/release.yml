@@ -25,10 +25,6 @@ jobs:
       with:
         name: ${{github.ref_name}}
         path: Hirsipuu-linux-${{github.ref_name}}
-    - name: Create Release
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: Hirsipuu-linux-${{github.ref_name}}
   build-win:
     runs-on: windows-latest
     steps:
