@@ -6,8 +6,7 @@ name: Release packages
 on:
   push:
     tags:
-      - "v*.*"
-      - "v*.*-beta"
+      - "v*"
 
 jobs:
 
@@ -26,6 +25,16 @@ jobs:
       with:
         name: ${{github.ref_name}}
         path: Hirsipuu-linux-${{github.ref_name}}
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{github.ref_name}}
+        release_name: Hirsipuu-linux-${{github.ref_name}}
+        draft: false
+        prerelease: false
   build-win:
     runs-on: windows-latest
     steps:
@@ -42,7 +51,16 @@ jobs:
         with:
           name: ${{github.ref_name}}
           path: Hirsipuu-win-${{github.ref_name}}.exe
-    
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{github.ref_name}}
+          release_name: Hirsipuu-win-${{github.ref_name}}
+          draft: false
+          prerelease: false
   build-mac:
     runs-on: macos-latest
     steps:
@@ -59,4 +77,14 @@ jobs:
         with:
           name: ${{github.ref_name}}
           path: Hirsipuu-mac-${{github.ref_name}}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{github.ref_name}}
+          release_name: Hirsipuu-mac-${{github.ref_name}}
+          draft: false
+          prerelease: false
     
